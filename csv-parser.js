@@ -1,20 +1,13 @@
-﻿var path = require('path');
-var Config = require(path.resolve(process.cwd(), process.argv[2]));
-
-module.exports = {
-    processCsv: processCsv
-}
-
-function processCsv(fileContents) {
+﻿function processCsv(fileContents, config) {
     if (!fileContents) {
         return {};
     }
 
     var to = {};
 
-    var csvToArray = CSVToArray(fileContents, Config.csvFieldSeparator);
+    var csvToArray = CSVToArray(fileContents, config.csvFieldSeparator);
     var size = csvToArray[0].length;
-    
+
     var languages = csvToArray[0];
     languages.shift();
 
@@ -32,8 +25,8 @@ function processCsv(fileContents) {
         }
     }
 
-    for (var i = 0; i < datas.length; i++) {
-        createJsonPropertyByPath(to, datas[i][0], datas[i][1])
+    for (var k = 0; k < datas.length; k++) {
+        createJsonPropertyByPath(to, datas[k][0], datas[k][1])
     }
 
     return to;
@@ -42,12 +35,12 @@ function processCsv(fileContents) {
 function createJsonPropertyByPath(obj, path, value) {
     if (typeof path == 'string')
         return createJsonPropertyByPath(obj, path.split('.'), value);
-    else if (path.length == 1 && value !== undefined)
+    else if (path.length === 1 && value !== undefined)
         return obj[path[0]] = value;
-    else if (path.length == 0)
+    else if (path.length === 0)
         return obj;
     if (obj[path[0]] == undefined)
-        obj[path[0]] = {}
+        obj[path[0]] = {};
     if (typeof obj[path[0]] == 'string')
         throw new Error(path[0] + " is a value");
     return createJsonPropertyByPath(obj[path[0]], path.slice(1), value);
@@ -87,7 +80,7 @@ function CSVToArray(strData, strDelimiter) {
         // that this delimiter is a row delimiter.
         if (
             strMatchedDelimiter.length &&
-            (strMatchedDelimiter != strDelimiter)
+            (strMatchedDelimiter !== strDelimiter)
         ) {
             // Since we have reached a new row of data,
             // add an empty row to our data array.
@@ -96,16 +89,17 @@ function CSVToArray(strData, strDelimiter) {
         // Now that we have our delimiter out of the way,
         // let's check to see which kind of value we
         // captured (quoted or unquoted).
+        var strMatchedValue;
         if (arrMatches[2]) {
             // We found a quoted value. When we capture
             // this value, unescape any double quotes.
-            var strMatchedValue = arrMatches[2].replace(
+            strMatchedValue = arrMatches[2].replace(
                 new RegExp("\"\"", "g"),
                 "\""
             );
         } else {
             // We found a non-quoted value.
-            var strMatchedValue = arrMatches[3];
+            strMatchedValue = arrMatches[3];
         }
         // Now that we have our value string, let's add
         // it to the data array.
@@ -114,3 +108,7 @@ function CSVToArray(strData, strDelimiter) {
     // Return the parsed data.
     return (arrData);
 }
+
+module.exports = {
+    processCsv: processCsv
+};

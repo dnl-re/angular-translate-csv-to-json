@@ -4,7 +4,7 @@
   "description": "A CLI build tool to generate JSON files required by Angular Translate from a single CSV file",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -19,12 +19,18 @@
     "generator"
   ],
   "author": "Jérémy Landon",
-  "contributors": [{ "name" : "Viktor Varadi"
-    , "url" : "https://github.com/Golapadeog/angular-translate-csv-to-json"
-    }],
+  "contributors": [
+    {
+      "name": "Viktor Varadi",
+      "url": "https://github.com/Golapadeog/angular-translate-csv-to-json"
+    }
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Golapadeog/angular-translate-csv-to-json/issues"
   },
-  "homepage": "https://github.com/Golapadeog/angular-translate-csv-to-json#readme"
+  "homepage": "https://github.com/Golapadeog/angular-translate-csv-to-json#readme",
+  "devDependencies": {
+    "jest": "^23.6.0"
+  }
 }

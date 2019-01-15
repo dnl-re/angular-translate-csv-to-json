@@ -8,16 +8,16 @@ var JsonFormat = require('./json-format');
 
 module.exports = {
     generateJson: generateJson
-}
+};
 
 function generateJson() {
 
-    fs.readFile(path.resolve(process.cwd(), Config.csvFileIn), { encoding: 'utf8' }, function (error, fileContents) {
+    fs.readFile(path.resolve(process.cwd(), Config.csvFileIn), {encoding: 'utf8'}, function (error, fileContents) {
         if (error) {
             console.error("Error opening CSV file: " + error.message);
             return;
         }
-        var to = CsvParser.processCsv(fileContents);
+        var to = CsvParser.processCsv(fileContents, Config);
 
         for (var language in to) {
             if (to.hasOwnProperty(language)) {
@@ -32,8 +32,7 @@ function generateJson() {
                     fs.writeFile(filePath, jsonContent, function (error) {
                         if (error) {
                             console.error('write error:  ' + error.message);
-                        }
-                        else {
+                        } else {
                             console.log('Translation JSON file generated at ' + filePath);
                         }
                     });

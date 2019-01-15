@@ -2,7 +2,7 @@
 
 module.exports = {
     generateJson: generateJson
-}
+};
 
 function generateJson() {
     JsonGenerator.generateJson();
